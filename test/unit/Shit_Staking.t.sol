@@ -70,12 +70,12 @@ contract ShitStakingTest is Test {
         vm.startPrank(user1);
         shitToken.approve(address(stakingContract), amount * 2);
 
-        stakingContract.unstake(amount);
+        stakingContract.unstake();
 
         amountUnStakeAfter = stakingContract.getStaked(user1);
         vm.stopPrank();
 
-        assertGt(amountUnStakePrevious, 0);
+        assertEq(amountUnStakeAfter, 0);
     }
 
     function testClaimRewards() public {
