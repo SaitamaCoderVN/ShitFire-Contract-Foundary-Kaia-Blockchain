@@ -66,4 +66,12 @@ contract ShitNFTTest is Test {
         assertEq(tokenUri, uri, "Token URI should match the set URI");
         vm.stopPrank();
     }
+
+    function testGetShitArray() public {
+        vm.startPrank(minter);
+        shitNFT.shootingShitNFT(minter);
+        address[] memory shitArray = shitNFT.getShitArray();
+        assertEq(shitArray.length, 1, "Minter should have 1 address in the array");
+        vm.stopPrank();
+    }
 }

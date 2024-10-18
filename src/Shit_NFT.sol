@@ -26,6 +26,8 @@ contract ShitNFT is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     mapping(address => address[]) private _mintedBy;
     mapping(address => uint256[]) private _tokenIdOwned;
 
+    address[] public ShitArray;
+
     constructor(
         address shitToken,
         uint256 shitTokenPerNFT,
@@ -55,6 +57,8 @@ contract ShitNFT is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
 
         _mintedBy[to].push(msg.sender);
         _tokenIdOwned[to].push(tokenId);
+
+        ShitArray.push(to);
     }
 
     /**
@@ -94,6 +98,14 @@ contract ShitNFT is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     function getShitNFTs(address owner) public view returns (uint256) {
         require(owner != address(0), "Invalid address");
         return _mintedBy[owner].length;
+    }
+
+    /**
+     * @dev Retrieves the array of addresses that have minted Shit NFTs.
+     * @return address[] An array of addresses that have minted Shit NFTs.
+     */
+    function getShitArray() public view returns (address[] memory) {
+        return ShitArray;
     }
 
     /**
