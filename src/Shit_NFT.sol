@@ -152,6 +152,7 @@ contract ShitNFT is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
             super._burn(tokenIds[i]);
         }
 
+        delete _tokenIdOwned[owner];
         // Clear the mapping of the wallet address
         delete _mintedBy[owner];
     }

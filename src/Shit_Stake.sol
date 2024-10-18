@@ -55,16 +55,14 @@ contract ShitStaking {
 
     /**
      * @dev Allows users to unstake tokens.
-     * @param amount The amount of tokens to unstake.
      */
-    function unstake(uint256 amount) external {
-        require(amount > 0, "amount is <= 0");
-        require(staked[msg.sender] >= amount, "amount is > staked");
+    function unstake() external {
         claim(); // Claim rewards before unstaking
 
-        staked[msg.sender] -= amount; // Update the staked amount
-        totalStaker -= amount; // Update total stakers
-        ShitToken.transfer(msg.sender, amount); // Transfer tokens back to the user
+        ShitToken.transfer(msg.sender, staked[msg.sender]); // Transfer tokens back to the user
+
+        totalStaker -= staked[msg.sender]; // Update total stakers
+        staked[msg.sender] = 0;
     }
 
     /**
@@ -84,5 +82,21 @@ contract ShitStaking {
         staked[msg.sender] += rewards; // Update staked amount with rewards
         totalRewards -= rewards; // Update total rewards
         totalStaker += staked[msg.sender]; // Update total stakers
+    }
+
+    /**
+     * @dev Get the total amount of rewards available.
+     * @return The total amount of rewards.
+     */
+    function getTotalRewards() external view returns (uint256) {
+        return totalRewards;
+    }
+
+    /**
+     * @dev Get the total amount of tokens staked.
+     * @return The total amount of staked tokens.
+     */
+    function getTotalStaked() external view returns (uint256) {
+        return totalStaker;
     }
 }
